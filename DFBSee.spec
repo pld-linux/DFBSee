@@ -11,6 +11,7 @@ URL:		http://www.directfb.org/
 BuildRequires:	DirectFB-devel >= 0.9.15
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	pkgconfig
 Requires:	DirectFB-font-ft2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
