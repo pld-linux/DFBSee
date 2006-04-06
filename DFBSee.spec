@@ -2,11 +2,12 @@ Summary:	DirectFBSee - an image viewer and video player for the Linux framebuffe
 Summary(pl):	DirectFBSee - przegl±darka obrazków i filmów dla linuksowego framebuffera
 Name:		DFBSee
 Version:	0.7.4
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/Graphics
 Source0:	http://www.directfb.org/download/DFBSee/%{name}-%{version}.tar.gz
 # Source0-md5:	3320a976457d3b3e9eaef530fdf56b37
+Patch0:		%{name}-API-fix.patch
 URL:		http://www.directfb.org/index.php?path=Development/Projects/DFBSee
 BuildRequires:	DirectFB-devel >= 0.9.15
 BuildRequires:	autoconf
@@ -29,6 +30,7 @@ GIF oraz MPEG lub urz±dzenie Video4Linux.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cp -f /usr/share/automake/config.sub .
