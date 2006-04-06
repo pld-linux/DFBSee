@@ -1,0 +1,33 @@
+===================================================================
+RCS file: /cvs/directfb/DFBSee/src/main.c,v
+retrieving revision 1.58
+retrieving revision 1.59
+diff -u -r1.58 -r1.59
+--- DFBSee/src/main.c	2002/11/01 23:08:39	1.58
++++ DFBSee/src/main.c	2005/04/09 20:53:16	1.59
+@@ -53,10 +53,10 @@
+ main (int    argc, 
+       char **argv)
+ {
+-  DFBCardCapabilities    caps;
+-  DFBSurfaceDescription  dsc;
+-  IDirectFBEventBuffer  *buffer;
+-  IDirectFBSurface      *image_area;
++  DFBGraphicsDeviceDescription  desc;
++  DFBSurfaceDescription         dsc;
++  IDirectFBEventBuffer         *buffer;
++  IDirectFBSurface             *image_area;
+   Media *media = NULL;
+   double zoom;
+   double adjust;
+@@ -78,8 +78,8 @@
+   /* create the super interface */
+   DFBCHECK (DirectFBCreate (&dfb));
+ 
+-  dfb->GetCardCapabilities (dfb, &caps);
+-  hw_stretchblit = caps.acceleration_mask & DFXL_STRETCHBLIT;
++  dfb->GetDeviceDescription (dfb, &desc);
++  hw_stretchblit = desc.acceleration_mask & DFXL_STRETCHBLIT;
+   
+   dfb->SetCooperativeLevel (dfb, DFSCL_FULLSCREEN);
+ 
