@@ -1,0 +1,101 @@
+--- DFBSee-0.7.4/src/rotate.c.orig	2002-08-26 21:14:14.000000000 +0200
++++ DFBSee-0.7.4/src/rotate.c	2008-09-12 09:38:47.000000000 +0200
+@@ -43,9 +43,9 @@
+         {\
+           *d = *s;\
+           s++;\
+-          (__u8*)d += dest_pitch;\
++          d = (type)((__u8*)d + dest_pitch);\
+         }\
+-      (__u8*)src += src_pitch;\
++      src += src_pitch;\
+     }\
+ }\
+ 
+@@ -53,7 +53,7 @@
+ {\
+   type d;\
+   type s;\
+-  (__u8 *) dest += (height - 1) * dest_pitch;\
++  dest += (height - 1) * dest_pitch;\
+   for (w = 0; w < width; w++)\
+     {\
+       h = height;\
+@@ -63,9 +63,9 @@
+         {\
+           *d = *s;\
+           s++;\
+-          (__u8*)d -= dest_pitch;\
++          d = (type)((__u8*)d - dest_pitch);\
+         }\
+-      (__u8*)src += src_pitch;\
++      src += src_pitch;\
+     }\
+ }\
+ 
+@@ -73,7 +73,7 @@
+ {\
+   type d;\
+   type s;\
+-  (__u8 *) dest += (height - 1) * dest_pitch;\
++  dest += (height - 1) * dest_pitch;\
+   while (--height)\
+     {\
+       d = (type) dest + width - 1;\
+@@ -85,8 +85,8 @@
+           s++;\
+           d--;\
+         }\
+-      (__u8*)src += src_pitch;\
+-      (__u8*)dest -= dest_pitch;\
++      src += src_pitch;\
++      dest -= dest_pitch;\
+     }\
+ }\
+ 
+@@ -161,18 +161,18 @@
+              int               y)
+ {
+   DFBSurfacePixelFormat pixelformat;
+-  void *src;
+-  void *dest;
++  __u8 *src;
++  __u8 *dest;
+   int src_pitch, dest_pitch;
+   int width, height;
+ 
+   source->GetSize (source, &width, &height);
+   source->GetPixelFormat (source, &pixelformat);
+   
+-  source->Lock (source, DSLF_READ, &src, &src_pitch);
+-  destination->Lock (destination, DSLF_READ, &dest, &dest_pitch);
++  source->Lock (source, DSLF_READ, (void**)&src, &src_pitch);
++  destination->Lock (destination, DSLF_READ, (void**)&dest, &dest_pitch);
+ 
+-  (__u8 *) dest += dest_pitch * y + DFB_BYTES_PER_PIXEL (pixelformat) * x;
++  dest += dest_pitch * y + DFB_BYTES_PER_PIXEL (pixelformat) * x;
+ 
+   rotate (dest, dest_pitch,
+           src, src_pitch, width, height, DFB_BYTES_PER_PIXEL (pixelformat),
+@@ -188,8 +188,8 @@
+ {
+   IDirectFBSurface      *destination;
+   DFBSurfaceDescription  dsc;
+-  void *src;
+-  void *dest;
++  __u8 *src;
++  __u8 *dest;
+   int src_pitch, dest_pitch;
+   int width, height;
+ 
+@@ -232,8 +232,8 @@
+       return source;
+     }
+ 
+-  source->Lock (source, DSLF_READ, &src, &src_pitch);
+-  destination->Lock (destination, DSLF_READ, &dest, &dest_pitch);
++  source->Lock (source, DSLF_READ, (void**)&src, &src_pitch);
++  destination->Lock (destination, DSLF_READ, (void**)&dest, &dest_pitch);
+ 
+   rotate (dest, dest_pitch, 
+           src, src_pitch, width, height, DFB_BYTES_PER_PIXEL (dsc.pixelformat),
